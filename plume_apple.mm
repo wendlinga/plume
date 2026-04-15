@@ -72,7 +72,7 @@ namespace plume {
 
             NSScreen *screen = [nsWindow screen];
             if (@available(macOS 12.0, *)) {
-                cachedRefreshRate.store((int)[screen maximumFramesPerSecond]);
+                cachedRefreshRate.store((int)(NSInteger)[screen maximumFramesPerSecond]);
             }
         } else {
             updateWindowAttributesInternal(true);
@@ -107,7 +107,7 @@ namespace plume {
             NSWindow *nsWindow = (__bridge NSWindow *)windowHandle;
             NSScreen *screen = [nsWindow screen];
             if (@available(macOS 12.0, *)) {
-                cachedRefreshRate.store((int)[screen maximumFramesPerSecond]);
+                cachedRefreshRate.store((int)(NSInteger)[screen maximumFramesPerSecond]);
             }
         };
 
@@ -149,7 +149,7 @@ namespace plume {
             NSScreen *screen = [nsWindow screen];
 
             if (@available(macOS 12.0, *)) {
-                int freshRate = (int)[screen maximumFramesPerSecond];
+                int freshRate = (int)(NSInteger)[screen maximumFramesPerSecond];
                 const_cast<CocoaWindow*>(this)->cachedRefreshRate.store(freshRate);
                 return freshRate;
             }

@@ -1847,6 +1847,11 @@ namespace plume {
                         uint64_t gpuAddress = nativeBuffer->gpuAddress() + bufferDescriptor->offset;
                         *reinterpret_cast<uint64_t*>(bufferPtr + argumentOffset) = gpuAddress;
                     } else {
+                        // On Tier 2 devices without direct buffer addresses (e.g. Intel Mac AMD on macOS 11+),
+                        // the constructor skips setArgumentBuffer since useArgumentBuffersTier2 is true.
+                        // We must call setArgumentBuffer here before encoding to avoid a crash in the
+                        // Metal driver when the encoder has no backing buffer assigned.
+                        argumentBuffer.argumentEncoder->setArgumentBuffer(argumentBuffer.mtl, argumentBuffer.offset);
                         argumentBuffer.argumentEncoder->setBuffer(nativeBuffer, bufferDescriptor->offset, argumentIndex);
                     }
                     nativeBuffer->retain();

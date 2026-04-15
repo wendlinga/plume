@@ -22,6 +22,11 @@
 
 #include <mach/mach.h>
 
+// task_id_token_t was introduced in macOS 13. Define a fallback for older SDKs.
+#ifndef task_id_token_t
+typedef mach_port_t task_id_token_t;
+#endif
+
 #include "MTLDefines.hpp"
 #include "MTLHeaderBridge.hpp"
 #include "MTLPrivate.hpp"
